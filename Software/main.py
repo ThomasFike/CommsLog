@@ -29,7 +29,7 @@ while (input("Continue:").lower() == "y"):
     contact.getContactInfo()
     contact.log(db)
 
-print(db.all())
 last = db.get(doc_id=len(db))
 print("Last contact:")
-print(f"Rx: {last[")
+print(
+    f"Rx: {last['Rx']}\nTx: {last['Tx']}\nTime: {time.ctime(last['time'])}\nMessage: {last['msg']}")
