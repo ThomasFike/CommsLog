@@ -3,6 +3,7 @@ from tinydb import TinyDB, Query
 from os import system, name
 from prettytable import PrettyTable
 import time
+from config import Config
 
 
 def clear():
@@ -64,27 +65,34 @@ class Contact:
 
 
 # Init
-db = TinyDB('./test.json')
+config = Config()
+if (input("Would you like to enter the configurator? [Y/n]: ").lower() == "y"):
+    config.configure()
+db = TinyDB(config.database)
 User = Query()
 WorkingContact = Contact()
+WorkingContact.receiving = config.RxStation
 clear()
 
 # Initial Config
 print("Welcome to Comms Log by Thomas Fike KG7FXT")
+
 if (input("Do you want to start a new document? [Y/n]: ").lower() == "y"):
     db.purge()
-Rx = input("What would you like to call your Receiving Station: ")
-WorkingContact.receiving = Rx
 
 while True:
     clear()
     printLast5()
-    print("\nWhat action would you like to do?\nAdd (N)ew Contact, (Q)uit")
+    print("\nWhat action would you like to do?\nAdd (N)ew Contact, (C)onfig, (Q)uit")
     action = input("Action: ").lower()
     if action == "n":
         print("")
         newContact(WorkingContact, db)
     elif action == "q":
         break
+    elif action == "c":
+        config.configure()
+        db = TinyDB(config.database)
+        WorkingContact.receiving = config.RxStation
 
 print("Thanks for using")
