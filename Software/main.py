@@ -1,6 +1,7 @@
 
 from tinydb import TinyDB, Query
 from os import system, name
+from prettytable import PrettyTable
 import time
 
 
@@ -14,16 +15,20 @@ def clear():
 
 def printLast5():
     Working = Contact()
+    t = PrettyTable(['Rx', 'Tx', 'Time', 'Message'])
     if len(db) == 0:
         return
     elif len(db) < 5:
         for idoc_id in range(1, len(db) + 1):
             Working.load(db.get(doc_id=idoc_id))
-            Working.print()
+            t.add_row([Working.receiving, Working.transmitting,
+                       time.ctime(Working.time), Working.message])
     else:
         for idoc_id in range(len(db) - 4, len(db) + 1):
             Working.load(db.get(doc_id=idoc_id))
-            Working.print()
+            t.add_row([Working.receiving, Working.transmitting,
+                       time.ctime(Working.time), Working.message])
+    print(t)
 
 
 def newContact(contact, db):
@@ -71,6 +76,15 @@ if (input("Do you want to start a new document? [Y/n]: ").lower() == "y"):
 Rx = input("What would you like to call your Receiving Station: ")
 WorkingContact.receiving = Rx
 
-newContact(WorkingContact, db)
+while True:
+    clear()
+    printLast5()
+    print("\nWhat action would you like to do?\nAdd (N)ew Contact, (Q)uit")
+    action = input("Action: ").lower()
+    if action == "n":
+        print("")
+        newContact(WorkingContact, db)
+    elif action == "q":
+        break
 
-printLast5()
+print("Thanks for using")
