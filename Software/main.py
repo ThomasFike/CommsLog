@@ -14,9 +14,21 @@ def clear():
 
 def printLast5():
     Working = Contact()
-    for idoc_id in range(len(db) - 4, len(db) + 1):
-        Working.load(db.get(doc_id=idoc_id))
-        Working.print()
+    if len(db) == 0:
+        return
+    elif len(db) < 5:
+        for idoc_id in range(1, len(db) + 1):
+            Working.load(db.get(doc_id=idoc_id))
+            Working.print()
+    else:
+        for idoc_id in range(len(db) - 4, len(db) + 1):
+            Working.load(db.get(doc_id=idoc_id))
+            Working.print()
+
+
+def newContact(contact, db):
+    contact.getContactInfo()
+    contact.log(db)
 
 
 class Contact:
@@ -58,8 +70,7 @@ if (input("Do you want to start a new document? [Y/n]: ").lower() == "y"):
     db.purge()
 Rx = input("What would you like to call your Receiving Station: ")
 WorkingContact.receiving = Rx
-# for i in range(0, 7):
-#    WorkingContact.getContactInfo()
-#    WorkingContact.log(db)
+
+newContact(WorkingContact, db)
 
 printLast5()
