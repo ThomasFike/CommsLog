@@ -1,4 +1,8 @@
 from fpdf import FPDF
+from tinydb import TinyDB, Query
+import time
+
+db = TinyDB('Database.json')
 space = '                                             '
 field8 = '8. Prepared by:    Name:' + space + 'Position/Title:' + space + 'Signature:\n'
 class PDF(FPDF):
@@ -45,19 +49,20 @@ def Header(spacing = 1):
                 border=1, align='L')
 
 
-def Header_Table(spacing=1):
-    data = [['ICS-309', '', 'email', 'zip'],
-            ['Mike', 'Driscoll', 'mike@somewhere.com', '55555'],
-            ['John', 'Doe', 'jdoe@doe.com', '12345'],
-            ['Nina', 'Ma', 'inane@where.com', '54321']
-            ]
-
-    col_width = pdf.w / 4.5
+def DataTable(spacing=1):
+    data = [['Time', 'Tx', 'Rx', 'Message']]
+    for item in db.all():
+        data.append(list(item.values()))
+    col_width = pdf.w / 6
     row_height = pdf.font_size
+    for row in data[1:]:
+        itime = time.localtime(int(row[0]))
+        row[0] = str(itime.tm_hour) + ':' + str(itime.tm_min) + ':' + str(itime.tm_sec)
     for row in data:
-        for item in row:
+        for item in row[0:-1]:
             pdf.cell(col_width, row_height*spacing,
                      txt=item, border=1)
+        pdf.cell(0,row_height*spacing, txt=row[-1], border=1)
         pdf.ln(row_height*spacing)
 
 
@@ -76,8 +81,7 @@ def simple_table(spacing=1):
                      txt=item, border=1)
         pdf.ln(row_height*spacing)
 
-#Header_Table()
-#pdf.ln(pdf.font_size)
-#simple_table()
 Header()
+pdf.ln(pdf.font_size)
+DataTable(1.5)
 pdf.output("test.pdf", 'F')
