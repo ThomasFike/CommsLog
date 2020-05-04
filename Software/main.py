@@ -4,6 +4,7 @@ from os import system, name
 from prettytable import PrettyTable
 import time
 from config import Config
+import pdfgen
 
 
 def clear():
@@ -83,7 +84,7 @@ if (input("Do you want to start a new document? [Y/n]: ").lower() == "y"):
 while True:
     clear()
     printLast5()
-    print("\nWhat action would you like to do?\nAdd (N)ew Contact, (C)onfig, (Q)uit")
+    print("\nWhat action would you like to do?\nAdd (N)ew Contact, (C)onfig, (G)enerate PDF, (Q)uit")
     action = input("Action: ").lower()
     if action == "n":
         print("")
@@ -94,5 +95,10 @@ while True:
         config.configure()
         db = TinyDB(config.database)
         WorkingContact.receiving = config.RxStation
+    elif action == "g":
+        clear()
+        pdfgen.GeneratePDF(db)
+        break
+        
 
 print("Thanks for using")
