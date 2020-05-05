@@ -142,3 +142,4 @@ cython_debug/
 
 #Databases and Config
 *.json
+!test.json
