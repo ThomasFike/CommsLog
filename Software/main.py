@@ -48,7 +48,7 @@ if (input("Do you want to start a new document? [Y/n]: ").lower() == "y"):
 while True:
     clear()
     printLast5()
-    print("\nWhat action would you like to do?\nAdd (N)ew Contact, (C)onfig, (G)enerate PDF, (Q)uit")
+    print("\nWhat action would you like to do?\nAdd (N)ew Contact, (C)onfig, (G)enerate PDF, (L)ookup, (Q)uit")
     action = input("Action: ").lower()
     if action == "n":
         print("")
