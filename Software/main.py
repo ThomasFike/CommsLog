@@ -7,6 +7,7 @@ from contact import Contact
 from functions import *
 from query import *
 
+
 def printLast5():
     Working = Contact()
     t = PrettyTable(['Rx', 'Tx', 'Time', 'Message'])
@@ -29,44 +30,44 @@ def newContact(contact, db):
     contact.getContactInfo()
     contact.log(db)
 
-# Init
-config = Config()
-if (input("Would you like to enter the configurator? [Y/n]: ").lower() == "y"):
-    config.configure()
-db = TinyDB(config.database)
-User = Query()
-WorkingContact = Contact()
-WorkingContact.receiving = config.RxStation
-clear()
 
-# Initial Config
-print("Welcome to Comms Log by Thomas Fike KG7FXT")
-
-if (input("Do you want to start a new document? [Y/n]: ").lower() == "y"):
-    db.purge()
-
-while True:
-    clear()
-    printLast5()
-    print("\nWhat action would you like to do?\nAdd (N)ew Contact, (C)onfig, (G)enerate PDF, (L)ookup, (Q)uit")
-    action = input("Action: ").lower()
-    if action == "n":
-        print("")
-        newContact(WorkingContact, db)
-    elif action == "q":
-        break
-    elif action == "c":
+if __name__ == '__main__':
+    # Init
+    config = Config()
+    if (input("Would you like to enter the configurator? [Y/n]: ").lower() == "y"):
         config.configure()
-        db = TinyDB(config.database)
-        WorkingContact.receiving = config.RxStation
-    elif action == "g":
-        clear()
-        pdfgen.GeneratePDF(db)
-        break
-    elif action == "l":
-        clear()
-        lookupDialog(db, User)
+    db = TinyDB(config.database)
+    User = Query()
+    WorkingContact = Contact()
+    WorkingContact.receiving = config.RxStation
+    clear()
 
-        
+    # Initial Config
+    print("Welcome to Comms Log by Thomas Fike KG7FXT")
 
-print("Thanks for using")
+    if (input("Do you want to start a new document? [Y/n]: ").lower() == "y"):
+        db.purge()
+
+    while True:
+        clear()
+        printLast5()
+        print("\nWhat action would you like to do?\nAdd (N)ew Contact, (C)onfig, (G)enerate PDF, (L)ookup, (Q)uit")
+        action = input("Action: ").lower()
+        if action == "n":
+            print("")
+            newContact(WorkingContact, db)
+        elif action == "q":
+            break
+        elif action == "c":
+            config.configure()
+            db = TinyDB(config.database)
+            WorkingContact.receiving = config.RxStation
+        elif action == "g":
+            clear()
+            pdfgen.GeneratePDF(db)
+            break
+        elif action == "l":
+            clear()
+            lookupDialog(db, User)
+
+    print("Thanks for using")
