@@ -8,7 +8,7 @@ from functions import *
 from query import *
 
 
-def printLast5():
+def printLast5(db):
     Working = Contact()
     t = PrettyTable(['Rx', 'Tx', 'Time', 'Message'])
     if len(db) == 0:
@@ -50,7 +50,7 @@ if __name__ == '__main__':
 
     while True:
         clear()
-        printLast5()
+        printLast5(db)
         print("\nWhat action would you like to do?\nAdd (N)ew Contact, (C)onfig, (G)enerate PDF, (L)ookup, (Q)uit")
         action = input("Action: ").lower()
         if action == "n":
