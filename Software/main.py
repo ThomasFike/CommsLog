@@ -6,6 +6,7 @@ import pdfgen
 from contact import Contact
 from functions import *
 from query import *
+import sys
 
 
 def printLast5(db):
